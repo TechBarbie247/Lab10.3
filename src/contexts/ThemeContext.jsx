@@ -1,32 +1,27 @@
-import { createContext, useReducer, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
-const TodoContext = createContext();
+const ThemeContext = createContext();
 
-const initialState = JSON.parse(localStorage.getItem("todos")) || [];
-
-function todoReducer(state, action) {
-  switch (action.type) {
-    case "ADD":
-      return [...state, { id: Date.now(), text: action.text, completed: false }];
-    default:
-      return state;
-  }
-}
-
-export function TodoProvider({ children }) {
-  const [todos, dispatch] = useReducer(todoReducer, initialState);
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem("theme", theme);
+    document.body.style.backgroundColor =
+      theme === "light" ? "#fff" : "#333";
+    document.body.style.color = theme === "light" ? "#000" : "#fff";
+  }, [theme]);
+
+  const toggleTheme = () =>
+    setTheme(prev => (prev === "light" ? "dark" : "light"));
 
   return (
-    <TodoContext.Provider value={{ todos, dispatch }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
-    </TodoContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 
-export function useTodos() {
-  return useContext(TodoContext);
+export function useTheme() {
+  return useContext(ThemeContext);
 }
