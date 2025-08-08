@@ -1,13 +1,30 @@
-# React + Vite
+# Context API Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a simple **Todo application** built with **React** and **Vite** that demonstrates how to use the **Context API** for state management.  
+The app allows you to:
+- Add todos
+- Filter todos (All, Active, Completed)
+- Toggle between Light and Dark themes
+- Persist todos and theme preference in `localStorag
+  ##  Features
+- **React Context API** for global state:
+  - `TodoContext` → Manages todos and updates
+  - `FilterContext` → Manages the current filter
+  - `ThemeContext` → Manages light/dark mode
+- **Local Storage** persistence
+- **Vite** for fast development
+- Functional components with hooks (`useState`, `useReducer`, `useEffect`, `useContext`)
+# While building this project, I ran into a blank page issue when running npm run dev:
 
-Currently, two official plugins are available:
+Forgot to wrap <App /> inside the context providers
+Without wrapping components in AppProviders, useContext() returned undefined and nothing rendered.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+index.html mount point check
+I verified that <div id="root"></div> existed — React needs this to attach the app.
 
-## Expanding the ESLint configuration
+Silent console warnings
+The browser console (F12 → Console) revealed useContext being used outside of a provider.
+# References
+React Official Docs: https://react.dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# Lab10.3
+React Context API: https://react.dev/reference/react/createContext
